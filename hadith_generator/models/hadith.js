@@ -8,7 +8,7 @@ const HadithSchema = new mongoose.Schema({
   book: { type: String, required: true },
   chapter: { type: String, required: true },
   reference: { type: String, required: false },
-});
+},{collection: "Hadiths"});
 
 // Create the model
 const Hadith = mongoose.model("Hadith", HadithSchema);

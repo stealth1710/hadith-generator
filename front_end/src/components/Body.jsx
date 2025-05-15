@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const Body = () => {
   // State to store the fetched hadith and its source
   const [hadith, setHadith] = useState(null);
+  const [hadith_ar, setHadith_ar] = useState(null);
   const [source, setSource] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false); // Loading state for the button
@@ -20,8 +21,9 @@ const Body = () => {
       const data = await response.json();
 
       setTimeout(() => {
-        if (data && data.text_en) {
+        if (data && data.text_en && data.text_ar) {
           setHadith(data.text_en); // Set the fetched hadith text
+          setHadith_ar(data.text_ar)
           setSource(data.source); // Set the fetched source
           setError(null); // Clear any previous errors
         } else {
@@ -32,7 +34,9 @@ const Body = () => {
         setLoading(false); // Stop loading animation
       }, 500); // Add delay to sync animation
     } catch (error) {
+      console.log(error)
       setTimeout(() => {
+        setHadith_ar(null);
         setHadith(null);
         setSource(null);
         setError("Error fetching hadith.");
@@ -49,7 +53,7 @@ const Body = () => {
   };
 
   return (
-    <div className="container text-center mt-10">
+    <div className="container text-center mt-10 h-auto">
       {/* Title */}
       <motion.h1
         className="text-4xl font-thin tracking-tight mb-10"
@@ -98,7 +102,10 @@ const Body = () => {
                 exit="exit"
               >
                 {/* Hadith Text */}
+                <p className="text-lg font-semibold mb-4">{hadith_ar}</p>
+                <hr className="my-4 border-t border-gray-300 w-full max-w-md mx-auto" />
                 <p className="text-lg font-semibold mb-4">{hadith}</p>
+                
                 {/* Source Text */}
                 <p className="text-sm font-light text-grey-600 italic">
                   Source: {source || "Unknown"}
