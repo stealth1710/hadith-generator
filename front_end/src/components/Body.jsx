@@ -8,12 +8,13 @@ const Body = () => {
   const [source, setSource] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false); // Loading state for the button
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   // Fetch random hadith
   const fetchRandomHadith = async () => {
     setLoading(true); // Start loading animation
     try {
-      const response = await fetch("http://localhost:3001/hadiths/random");
+      const response = await fetch(`${apiUrl}/hadiths/random`);
       if (!response.ok) {
         throw new Error("Failed to fetch the hadith.");
       }
